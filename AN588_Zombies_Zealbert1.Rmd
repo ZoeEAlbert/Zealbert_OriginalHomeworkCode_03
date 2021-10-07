@@ -62,7 +62,6 @@ g1
 
 ###Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
 ```{r}
-<<<<<<< HEAD
 hist(mydata$height, probability = TRUE, main = "Height")
 hist(mydata$weight, probability = TRUE, main = "Weight")
 hist(mydata$age, probability = TRUE, main = "Age")
@@ -81,8 +80,7 @@ qqline(mydata, col = "gray")
 qqnorm(mydata$years_of_education, probability = TRUE, main = "Years of Education")
 qqline(mydata, col = "gray")
 ###QQ Plots. Hard to run individually.  Need to shift and enter two at a time. Is there a better way?
-=======
-hist(mydata$height, probability = TRUE, main = "Height distribution")
+
 ```
 hist(mydata$weight, probabilty=TRUE)
 hist(mydata$age, probabilty=TRUE)
