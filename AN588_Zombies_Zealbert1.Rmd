@@ -2,7 +2,7 @@
 title: "AN588_Zombies_Zealbert"
 author: "Zoe Albert"
 date: "10/6/2021"  
-output: html_document
+output: html_document 
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
