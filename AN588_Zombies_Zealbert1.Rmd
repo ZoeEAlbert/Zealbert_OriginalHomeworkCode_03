@@ -99,5 +99,5 @@ S
 ###1: It took me a really long time to figure out how to get the data from github into Rstudio.  Mel helped me and I reliazed I was making it much more complicated than it needed to be.  I just needed to use the curl and readr functions. 
 ###2: I struggled to figure out how to make the data appear on the plot.  I needed to make a function with "geom" in order to make it work.
 ###3:It was really hard to figure out how to get a line into the scatterplot.  I was able to find the function, but I still don't know how to find the slope.
-###4:Q-Q plots!!!! HELP!!!
+###4:Q-Q plots!!!! HELP!!! 
 ###5:How do I get chunks to run that are scheudled for later?????????????
