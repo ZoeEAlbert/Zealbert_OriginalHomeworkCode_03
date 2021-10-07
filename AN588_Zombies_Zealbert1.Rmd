@@ -1,0 +1,97 @@
+---
+title: "AN588_Zombies_Zealbert"
+author: "Zoe Albert"
+date: "10/6/2021" 
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## R Markdown 
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+###Calculate the population mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in var() and sd() commands as these are for samples.
+```{r mean and sdev}
+library (curl)
+library(readr)
+zom<-curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall21/zombies.csv")
+mydata <- read.csv(zom,header=TRUE,sep=",",stringsAsFactors = FALSE)
+head(mydata)
+###I need to download the data from github first.
+summary(mydata)
+### This should get us the mean of each, but I want to separate these further.
+mean(mydata$height)
+mean(mydata$weight)
+mean(mydata$age)
+mean(mydata$zombies_killed)
+mean(mydata$years_of_education)
+###These means have all been separated. 
+
+sd.p=function(x){sd(x)*sqrt((length(x)-1)/length(x))}
+sd.p(mydata$height)
+sd.p(mydata$weight)
+sd.p(mydata$age)
+sd.p(mydata$zombies_killed)
+sd.p(mydata$years_of_education)
+###These should be standard deviations as sum not just samples. 
+```
+
+###Use {ggplot} to make boxplots of each of these variables by gender.
+```{r boxplot by gender}
+library(ggplot2)
+g<-ggplot(mydata, aes(x=gender, y=height))+geom_boxplot()
+g<-ggplot(mydata, aes(x=gender, y=weight))+geom_boxplot()
+g<-ggplot(mydata, aes(x=gender, y=age))+geom_boxplot()
+g<-ggplot(mydata, aes(x=gender, y=zombies_killed))+geom_boxplot()
+g<-ggplot(mydata, aes(x=gender, y=year_of_education))+geom_boxplot()
+###I am initially struggling to plot any data onto these graphs.  I have figured out how to make the x and y axes though. In order to make the actual box, we needed to call the function. 
+```
+
+###Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?
+```{r scatterplots: height and weight as they relate to age}
+library(ggplot2)
+g<-ggplot(mydata, aes(x=age, y=height))+geom_point()+geom_smooth(method=lm,formula=y~x, se=FALSE, linetype="dashed",color="darkred")
+g
+g1<-ggplot(mydata, aes(x=age, y=weight))+geom_point()+geom_smooth(method=lm,formula=y~x, se=FALSE, linetype="dashed", color="darkred")
+g1
+###This should be height v. age and weight v. age.
+###It was hard to figure out how to get a line into the plot and I am still not sure that I was able to for the second one.  But, I can see that both have a postie correlation. I would like to be able to say more about that.  How do I get the slope of the line/plot?
+```
+
+###Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
+```{r}
+hist(mydata$height, probability = TRUE, main = "Height")
+hist(mydata$weight, probability = TRUE, main = "Weight")
+hist(mydata$age, probability = TRUE, main = "Age")
+hist(mydata$zombies_killed, probability = TRUE, main = "zombies_killed")
+hist(mydata$years_of_education, probability = TRUE, main = "years_of_education")
+###Histograms of quantitative variables.
+```
+
+```{r qq plot}
+qqnorm(mydata$height, probability = TRUE, main = "Height")
+qqline(mydata, col = "gray")
+qqnorm(mydata$weight, probability = TRUE, main = "Weight")
+qqline(mydata, col = "gray")
+qqnorm(mydata$zombies_killed, probability = TRUE, main = "zombies killed")
+qqline(mydata, col = "gray")
+qqnorm(mydata$years_of_education, probability = TRUE, main = "Years of Education")
+qqline(mydata, col = "gray")
+###QQ Plots. Hard to run individually. 
+```
+
+###Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
+```{r sample}
+```
+
+###Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
+```{r}
+```
+###Challenges
+###1: It took me a really long time to figure out how to get the data from github into Rstudio.  Mel helped me and I reliazed I was making it much more complicated than it needed to be.  I just needed to use the curl and readr functions. 
+###2: I struggled to figure out how to make the data appear on the plot.  I needed to make a function with "geom" in order to make it work.
+###3:It was really hard to figure out how to get a line into the scatterplot.  I was able to find the function, but I still don't know how to find the slope.
+###4:Q-Q plots!!!! HELP!!!
+###5:
