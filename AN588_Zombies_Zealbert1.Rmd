@@ -1,12 +1,12 @@
----
+--- 
 title: "AN588_Zombies_Zealbert"
 author: "Zoe Albert"
-date: "10/6/2021" 
+date: "10/6/2021"  
 output: html_document
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
+``` 
 ## R Markdown 
 ```{r pressure, echo=FALSE}
 plot(pressure)
@@ -62,6 +62,7 @@ g1
 
 ###Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
 ```{r}
+<<<<<<< HEAD
 hist(mydata$height, probability = TRUE, main = "Height")
 hist(mydata$weight, probability = TRUE, main = "Weight")
 hist(mydata$age, probability = TRUE, main = "Age")
@@ -80,24 +81,50 @@ qqline(mydata, col = "gray")
 qqnorm(mydata$years_of_education, probability = TRUE, main = "Years of Education")
 qqline(mydata, col = "gray")
 ###QQ Plots. Hard to run individually.  Need to shift and enter two at a time. Is there a better way?
+=======
+hist(mydata$height, probability = TRUE, main = "Height distribution")
+```
+hist(mydata$weight, probabilty=TRUE)
+hist(mydata$age, probabilty=TRUE)
+hist(mydata$zombies_killed, probabilty=TRUE)
+hist(mydata$,years_of_education, probabilty=TRUE)
+###Histograms of quantitative variables.  How do I visuazlize the data after this?  Is it okay to do back to back histograms or is that my problem?  How am I able to tell if they are notmal or not without seeing them.
+
+qqnorm(mydata)
+qqline(v, col = "gray")
+
+###This I do not get at all!!! Help!
+>>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798
 ```
 
 ###Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
 ```{r sample}
+<<<<<<< HEAD
 S<-sample(mydata, 30, replace=FALSE, prob=Null)
 S
 ###My code is taking too long to run so I am unable to see if this is working or not.  I think I am going to go into office hours to discuss this problem. Since it is not running(a little clock shows up, I cannot yet do the mean or the standard deviation).
+=======
+>>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798
 ```
 
 ###Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
 ```{r}
+<<<<<<< HEAD
 S<-sample(mydata, 99, replace=FALSE, prob=Null)
 S
 ###This is also giving me the little clock and telling me to run later.  I will need to come back to this.  I am going to try logging off and back on. 
+=======
+>>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798
 ```
 ###Challenges
 ###1: It took me a really long time to figure out how to get the data from github into Rstudio.  Mel helped me and I reliazed I was making it much more complicated than it needed to be.  I just needed to use the curl and readr functions. 
 ###2: I struggled to figure out how to make the data appear on the plot.  I needed to make a function with "geom" in order to make it work.
+<<<<<<< HEAD
 ###3:It was really hard to figure out how to get a line into the scatterplot.  I was able to find the function, but I still don't know how to find the slope. 
 ###4:Q-Q plots!!!! HELP!!! 
 ###5:How do I get chunks to run that are scheudled for later?????????????
+=======
+###3:It was really hard to figure out how to get a line into the scatterplot.  I was able to find the function, but I still don't know how to find the slope.
+###4:Histograms and Q-Q plots!!!! HELP!!!
+###5:
+>>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798
