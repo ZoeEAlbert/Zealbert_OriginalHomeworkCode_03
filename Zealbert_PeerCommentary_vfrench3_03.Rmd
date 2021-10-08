@@ -1,0 +1,148 @@
+---
+title: "Zealbert_PeerComentary_vfrench3_03"
+author: "Victoria French"
+date: "10/8/2021"
+output: html_document
+---
+
+### Calculate the population mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in var() and sd() commands as these are for samples.
+```{r mean and sdev}
+library (curl)
+library(readr)
+zom<-curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall21/zombies.csv")
+mydata <- read.csv(zom,header=TRUE,sep=",",stringsAsFactors = FALSE)
+head(mydata)
+###I need to download the data from github first.
+summary(mydata)
+### This should get us the mean of each, but I want to separate these further.
+mean(mydata$height)
+mean(mydata$weight)
+mean(mydata$age)
+mean(mydata$zombies_killed)
+mean(mydata$years_of_education)
+###These means have all been separated. 
+
+sd.p=function(x){sd(x)*sqrt((length(x)-1)/length(x))}
+#V: so here the function you are creating is calling on the sd() built in R function which the question hints you shouldnt do? Also I'm not sure where you are getting this equation from? I would annotate in the derivation of the equation somewhere for clarity. It is producing the same outputs as mine though so it is working! It is just confusing me haha. 
+sd.p(mydata$height)
+sd.p(mydata$weight)
+sd.p(mydata$age)
+sd.p(mydata$zombies_killed)
+sd.p(mydata$years_of_education)
+###These should be standard deviations as sum not just samples. 
+```
+
+V: There is alot going on in this first chunk meaning when you run it the outputs will be clumped together and might get confusing. For the sake of annotations and clarity I would break this up.
+
+### Use {ggplot} to make boxplots of each of these variables by gender.
+```{r boxplot by gender}
+library(ggplot2)
+g<-ggplot(mydata, aes(x=gender, y=height))+geom_boxplot()
+g<-ggplot(mydata, aes(x=gender, y=weight))+geom_boxplot()
+g<-ggplot(mydata, aes(x=gender, y=age))+geom_boxplot()
+g<-ggplot(mydata, aes(x=gender, y=zombies_killed))+geom_boxplot()
+g<-ggplot(mydata, aes(x=gender, y=years_of_education))+geom_boxplot()
+###I am initially struggling to plot any data onto these graphs.  I have figured out how to make the x and y axes though. In order to make the actual box, we needed to call the function. 
+g
+```
+V: So in this second chunk you are assigning each plot to the same value which means the code of each subsequent line is just writing over the object you made in the previous line. I printed g and it was just the last boxplot (education). I would recommend assigning all of them to different objects!
+
+### Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?
+```{r scatterplots: height and weight as they relate to age}
+library(ggplot2) #V: once you library once you don't need to do it for every subsequent chunk. But you can keep it if you prefer it this way! 
+g<-ggplot(mydata, aes(x=age, y=height))+geom_point()+geom_smooth(method=lm,formula=y~x, se=FALSE, linetype="dashed",color="darkred")
+g
+g1<-ggplot(mydata, aes(x=age, y=weight))+geom_point()+geom_smooth(method=lm,formula=y~x, se=FALSE, linetype="dashed", color="darkred") #V: I love that you are playing with ggplot color functions here. I think this code is very concise but I would add some annotation for each ggplot functions you are calling so it is clearer what the code is actually doing. 
+g1
+###This should be height v. age and weight v. age.
+###It was hard to figure out how to get a line into the plot and I am still not sure that I was able to for the second one.  But, I can see that both have a postie correlation. I would like to be able to say more about that.  How do I get the slope of the line/plot? 
+
+
+#V: You can run the linear regression (the method that the geom_smooth function is using) independently if you want the data! Try the following code: 
+lm(formula= weight ~ age, mydata)
+#V: the output is the results of the regression. The intercept is the formulas intercept and the coefficient under your x variable (age) is the slope! 
+```
+
+### Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
+```{r}
+hist(mydata$height, probability = TRUE, main = "Height")
+hist(mydata$weight, probability = TRUE, main = "Weight")
+hist(mydata$age, probability = TRUE, main = "Age")
+hist(mydata$zombies_killed, probability = TRUE, main = "zombies_killed")
+hist(mydata$years_of_education, probability = TRUE, main = "years_of_education")
+###Histograms of quantitative variables.
+```
+
+```{r qq plot}
+qqnorm(mydata$height, probability = TRUE, main = "Height")
+qqline(mydata, col = "gray") #V: for this you can't use the whole data set as the data. Try subsetting it like you did for the qqnorm function and it will run! 
+#V: actually this is weird, Im running into an error that says plot.new has not been called which wasn't happening with my code that looks just like this when I originally ran it. I will ask in class! 
+qqnorm(mydata$weight, probability = TRUE, main = "Weight")
+qqline(mydata, col = "gray")
+qqnorm(mydata$zombies_killed, probability = TRUE, main = "zombies killed")
+qqline(mydata, col = "gray")
+qqnorm(mydata$years_of_education, probability = TRUE, main = "Years of Education")
+qqline(mydata, col = "gray")
+###QQ Plots. Hard to run individually.  Need to shift and enter two at a time. Is there a better way? 
+## V: I would just break up the code into separate chunks. It wil run better and be easier to interpret your outputs! Also The only error coming up for me is because it is saying probability is not a graphical parameter. I would just remove the probability = TRUE as an argument. It usually is better to not include an argument if you don't know how it is influencing your data. 
+
+
+```
+hist(mydata$weight, probabilty=TRUE)
+hist(mydata$age, probabilty=TRUE)
+hist(mydata$zombies_killed, probabilty=TRUE)
+hist(mydata$,years_of_education, probabilty=TRUE)
+###Histograms of quantitative variables.  How do I visuazlize the data after this?  Is it okay to do back to back histograms or is that my problem?  How am I able to tell if they are notmal or not without seeing them. 
+
+V: unsure what you are asking here? It should just print out all 5 in separate panels but maybe use separate chunks? I think when looking at histograms the test of normality is subjective.
+
+qqnorm(mydata)
+qqline(v, col = "gray")
+
+###This I do not get at all!!! Help!
+>>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798
+```
+V: again unsure on what you are asking for help on? If its the series of characters following the carrots. Usually that occurs when you are trying to merge changes that were both pushed maybe at the same time and therefore the changes are out of sync with the original repo. It is usually an indicator of where the additions or deletions of lines of code are compared to the merging document. Usually I just delete them haha but I don't know if that is the best advice. 
+
+###Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
+
+```{r sample}
+<<<<<<< HEAD #V: This is also a product of merging, HEAD is where the changes begin. 
+S<-sample(mydata, 30, replace=FALSE, prob=NULL)
+S
+###My code is taking too long to run so I am unable to see if this is working or not.  I think I am going to go into office hours to discuss this problem. Since it is not running(a little clock shows up, I cannot yet do the mean or the standard deviation).
+
+#V: So this code will produce an error. Essentially the sample function only takes vectors as an input for the data and your mydata object is a dataframe. Therefore you first need to subset the dataframe in order to call the sample function. Take a look at my code! It should help! 
+=======
+>>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798 #V: indicates where changes end for merging. 
+```
+
+###Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
+
+```{r}
+<<<<<<< HEAD
+S<-sample(mydata, 99, replace=FALSE, prob=Null)
+S
+###This is also giving me the little clock and telling me to run later.  I will need to come back to this.  I am going to try logging off and back on. 
+
+#V: See my comments for the previous chunk. Also here you are just saying that you will sample 99 items when the question is asking you to sample 30 items 99 different times. In order to do this you will need to create a for loop like we talked about in lecture! Again looking back at Module 7 will help! 
+=======
+>>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798
+```
+
+###Challenges
+###1: It took me a really long time to figure out how to get the data from github into Rstudio.  Mel helped me and I reliazed I was making it much more complicated than it needed to be.  I just needed to use the curl and readr functions. 
+###2: I struggled to figure out how to make the data appear on the plot.  I needed to make a function with "geom" in order to make it work.
+<<<<<<< HEAD
+###3:It was really hard to figure out how to get a line into the scatterplot.  I was able to find the function, but I still don't know how to find the slope. 
+###4:Q-Q plots!!!! HELP!!! 
+###5:How do I get chunks to run that are scheudled for later????????????? V: there is a revert button under the setting of the chunk. maybe try that? 
+=======
+###3:It was really hard to figure out how to get a line into the scatterplot.  I was able to find the function, but I still don't know how to find the slope.
+###4:Histograms and Q-Q plots!!!! HELP!!!
+###5:
+>>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798
+
+Overall Comments: 
+
+V: I think what you have so far is good! I think looking over the modules again would really help! Particularly 7 & 8! I tried to answer as many of your questions as I could but feel free to reach out over slack if you have any more while you work on the rest of the assignment! 
