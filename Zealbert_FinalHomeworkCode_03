@@ -1,0 +1,252 @@
+---
+title: "Zealbert_FinalHomeworkCode_03"
+author: "Zoe Albert"
+date: "10/14/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+### Calculate the population mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in var() and sd() commands as these are for samples.
+```{r mean and sdev}
+library (curl)
+library(readr)
+zom<-curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall21/zombies.csv")
+mydata <- read.csv(zom,header=TRUE,sep=",",stringsAsFactors = FALSE)
+head(mydata)
+###I need to download the data from github first.
+summary(mydata)
+### This should get us the mean of each, but I want to separate these further.
+mean(mydata$height)
+mean(mydata$weight)
+mean(mydata$age)
+mean(mydata$zombies_killed)
+mean(mydata$years_of_education)
+###These means have all been separated. 
+sd.p=function(x){sd(x)*sqrt((length(x)-1)/length(x))}
+###I don't believe that this is the built in function.  This formula is based on a standard deviation module that I found online. 
+sd.p(mydata$height)
+sd.p(mydata$weight)
+sd.p(mydata$age)
+sd.p(mydata$zombies_killed)
+sd.p(mydata$years_of_education)
+###These should be standard deviations as sum not just samples. 
+```
+
+### Use {ggplot} to make boxplots of each of these variables by gender.
+```{r boxplot by gender}
+library(ggplot2)
+g<-ggplot(mydata, aes(x=gender, y=height))+geom_boxplot()
+g<-ggplot(mydata, aes(x=gender, y=weight))+geom_boxplot()
+g<-ggplot(mydata, aes(x=gender, y=age))+geom_boxplot()
+g<-ggplot(mydata, aes(x=gender, y=zombies_killed))+geom_boxplot()
+g<-ggplot(mydata, aes(x=gender, y=years_of_education))+geom_boxplot()
+### Each graph is by a variable and gender.
+```
+
+### Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?
+```{r scatterplots: height and weight as they relate to age}
+library(ggplot2) 
+g<-ggplot(mydata, aes(x=age, y=height))+geom_point()+geom_smooth(method=lm,formula=y~x, se=FALSE, linetype="dashed",color="darkred")
+g
+g1<-ggplot(mydata, aes(x=age, y=weight))+geom_point()+geom_smooth(method=lm,formula=y~x, se=FALSE, linetype="dashed", color="darkred")
+g1
+###This should be height v. age and weight v. age.
+###It was hard to figure out how to get a line into the plot and I am still not sure that I was able to for the second one.  But, I can see that both have a postie correlation. I would like to be able to say more about that.  How do I get the slope of the line/plot? 
+lm(formula= weight ~ age, mydata)
+###The formula, gifted to me from Victoria, seems to show the results of the regression.  The intercept is the intercept of the formula and age is the slope.
+```
+
+### Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
+```{r}
+hist(mydata$height, probability = TRUE, main = "Height")
+hist(mydata$weight, probability = TRUE, main = "Weight")
+hist(mydata$age, probability = TRUE, main = "Age")
+hist(mydata$zombies_killed, probability = TRUE, main = "zombies_killed")
+hist(mydata$years_of_education, probability = TRUE, main = "years_of_education")
+###Histograms of quantitative variables.
+```
+
+```{r qq plot}
+qqnorm(mydata$height, probability = TRUE, main = "Height")
+qqline(mydata, col = "gray")
+qqnorm(mydata$weight, probability = TRUE, main = "Weight")
+qqline(mydata, col = "gray")
+qqnorm(mydata$zombies_killed, probability = TRUE, main = "zombies killed")
+qqline(mydata, col = "gray")
+qqnorm(mydata$years_of_education, probability = TRUE, main = "Years of Education")
+qqline(mydata, col = "gray")
+###QQ Plots. Hard to run individually.  Need to shift and enter two at a time. Is there a better way?  Victoria suggested breaking the code into separate chunks.  If I do this, it might be easier to interpret.  What happens if I remove probability= TRUE??? 
+```
+```{histograms }
+hist(mydata$weight, probabilty=TRUE)
+hist(mydata$age, probabilty=TRUE)
+hist(mydata$zombies_killed, probabilty=TRUE)
+hist(mydata$,years_of_education, probabilty=TRUE)
+###Histograms of quantitative variables.  Normal.
+qqnorm(mydata)
+qqline(v, col = "gray")
+```
+
+###Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
+```{r sample Zombie Simulation}
+zomset <- NULL  
+### This will be a place holder
+n <- 30
+###30 is the sample size
+for (i in 1:10000) {
+    zomset[i] <- mean(sample(sample.mydata$zombies_killed, n, replace = TRUE))
+} 
+### 30 samples repeated 10,000 times. 
+
+zCI <- quantile(zomset, c(0.025, 0.975))
+zCI
+
+###Zombie confidence interval
+```
+
+```{r, education simulation}
+edset <- NULL 
+###Again we have to set up a place for them to be.
+n <- 30 
+###Sample size
+for (i in 1:10000) {
+    edset[i] <- mean(sample(sample.mydata$years_of_education, n, replace = TRUE))
+}
+eCI <- quantile(edset, c(0.025, 0.975))
+eCI
+```
+ 
+```
+###Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
+
+```{r loops on loops on loops}
+###We need to generate more samples of 30.  So first I need to create a new set.
+set.100 <- NULL 
+for (i in 1:99) {
+  set.100[[i]] <- 
+     mydata[sample(1:nrow(mydata),30,replace = FALSE), ]
+} 
+set.100[[100]] <- sample.mydata 
+
+h.sampling.distribution <- NULL
+for (i in 1:100) {
+  h.sampling.distribution [i] <- mean(set.100[[i]][ ,'height'])
+} 
+###Sample Distribution. 
+```
+
+```{r, weight sampling distribution}
+w.sampling.distribution <- NULL
+for (i in 1:100) {
+  w.sampling.distribution [i] <- mean(set.100[[i]][ ,'weight'])
+}
+```
+
+```{r, age sampling distribution}
+a.sampling.distribution <- NULL
+for (i in 1:100) {
+  a.sampling.distribution [i] <- mean(set.100[[i]][ ,'age'])
+}
+```
+
+```{r, zombie sampling distribution}
+z.sampling.distribution <- NULL
+for (i in 1:100) {
+  z.sampling.distribution [i] <- mean(set.100[[i]][ ,'zombies_killed'])
+}
+```
+
+```{r}
+e.sampling.distribution <- NULL
+for (i in 1:100) {
+  e.sampling.distribution [i] <- mean(set.100[[i]][ ,'years_of_education'])
+}
+```
+
+What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors? 
+
+```{r}
+mean(h.sampling.distribution)
+sd(h.sampling.distribution)
+```
+###Above SE is very close to that which we got in number 5.
+```{r, mean and sd of weight sampling distribution}
+mean(w.sampling.distribution)
+sd(w.sampling.distribution)
+```
+
+###Again, very similar. 
+
+```{r, mean and sd of age sampling distribution}
+mean(a.sampling.distribution)
+sd(a.sampling.distribution)
+```
+
+###Close again to what we got in question 5. 
+
+```{r, mean and sd of zombie sampling distribution}
+mean(z.sampling.distribution)
+sd(z.sampling.distribution)
+```
+
+###Once more, incredibly close to that which we got in 5. 
+
+```{r, mean and sd of education sampling distribution}
+mean(e.sampling.distribution)
+sd(e.sampling.distribution)
+```
+
+###Close to what we got in 5. 
+
+```{r, height sampling distribution histogram}
+hist(h.sampling.distribution,  main = 'Height Sampling Distribution', xlab= 'Average height of sample')
+```
+
+```{r, weight sampling distribution histogram}
+hist(w.sampling.distribution,  main = 'Weight Sampling Distribution', xlab= 'Average weight of sample')
+```
+
+```{r, age sampling distribution histogram}
+hist(a.sampling.distribution,  main = 'Age Sampling Distribution', xlab= 'Average Age of sample')
+```
+
+```{r, zombie sampling distribution histogram}
+hist(z.sampling.distribution,  main = 'Killed Zombie Sampling Distribution', xlab= 'Average zombies killed per sample')
+```
+
+```{r, education sampling distribution histogram}
+hist(e.sampling.distribution, main = 'Education Sampling Distribution', xlab= 'Average education (years) of a sample')
+```
+###I don't know that I would have been able to figure out the loops without the help of my group, so I will be coming in to someones office hours in the furture. 
+
+###Challenges
+###1: It took me a really long time to figure out how to get the data from github into Rstudio.  Mel helped me and I reliazed I was making it much more complicated than it needed to be.  I just needed to use the curl and readr functions. 
+###2: I struggled to figure out how to make the data appear on the plot.  I needed to make a function with "geom" in order to make it work.
+###3:It was really hard to figure out how to get a line into the scatterplot.  I was able to find the function, but I still don't know how to find the slope. 
+###4:Q-Q plots!!!! HELP!!! 
+###5:How do I get chunks to run that are scheudled for later????????????? V: there is a revert button under the setting of the chunk. maybe try that? 
+###Additional Question: Do I need to load in my data at the start of every chunk?  Why does it say mydata not found in some chunks, but not others?
