@@ -1,0 +1,152 @@
+---
+title: "zealbert_PeerCommentary_martah_03"
+author: "Marta"
+date: "10/14/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+``` 
+
+### Calculate the population mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in var() and sd() commands as these are for samples.
+
+```{r mean and sdev}
+library (curl)
+library(readr) #you can also load these in your setup chunk -M
+zom<-curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall21/zombies.csv")
+mydata <- read.csv(zom,header=TRUE,sep=",",stringsAsFactors = FALSE)
+head(mydata)
+###I need to download the data from github first.
+summary(mydata)
+### This should get us the mean of each, but I want to separate these further.
+mean(mydata$height)
+mean(mydata$weight)
+mean(mydata$age)
+mean(mydata$zombies_killed)
+mean(mydata$years_of_education)
+###These means have all been separated. 
+
+sd.p=function(x){sd(x)*sqrt((length(x)-1)/length(x))}
+sd.p(mydata$height)
+sd.p(mydata$weight)
+sd.p(mydata$age)
+sd.p(mydata$zombies_killed)
+sd.p(mydata$years_of_education)
+###These should be standard deviations as sum not just samples. 
+```
+_This is a super dense chunk, which kind of works since you seperated it out and commented really well but I would consider chopping this up into individual chunks for running and readability -M_
+
+###Use {ggplot} to make boxplots of each of these variables by gender.
+
+```{r boxplot by gender}
+library(ggplot2)
+g<-ggplot(mydata, aes(x=gender, y=height))+geom_boxplot()
+g<-ggplot(mydata, aes(x=gender, y=weight))+geom_boxplot() #assign a new variable everytime so it doesn't overwrite -M
+g<-ggplot(mydata, aes(x=gender, y=age))+geom_boxplot()
+g<-ggplot(mydata, aes(x=gender, y=zombies_killed))+geom_boxplot()
+g<-ggplot(mydata, aes(x=gender, y=year_of_education))+geom_boxplot()
+###I am initially struggling to plot any data onto these graphs.  I have figured out how to make the x and y axes though. In order to make the actual box, we needed to call the function. 
+```  
+_I can't actually run this chunk? Part of it again is the density, if you isolate each of these it would be easier to isolate the problem. For example, this chunk had no problems with the beginning but after i ran each command `year_of_education` wasn't found. If that happens I would use the `colnames()` to figure out what you're trying to run in this case 'yearS' plural not `year`_ 
+
+###Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?
+
+```{r scatterplots: height and weight as they relate to age}
+library(ggplot2)
+g<-ggplot(mydata, aes(x=age, y=height))+geom_point()+geom_smooth(method=lm,formula=y~x, se=FALSE, linetype="dashed",color="darkred")
+g
+g1<-ggplot(mydata, aes(x=age, y=weight))+geom_point()+geom_smooth(method=lm,formula=y~x, se=FALSE, linetype="dashed", color="darkred")
+g1
+###This should be height v. age and weight v. age.
+###It was hard to figure out how to get a line into the plot and I am still not sure that I was able to for the second one.  But, I can see that both have a postie correlation. I would like to be able to say more about that.  How do I get the slope of the line/plot?
+```
+_I can see a line for both of the plots! I'm not sure how you can find the slope I think that would involve just calculating the regression on your own? That should be in the next module I think? I'm not very sure though sorry! -M_
+
+###Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
+
+```{r}
+hist(mydata$height, probability = TRUE, main = "Height")
+hist(mydata$weight, probability = TRUE, main = "Weight")
+hist(mydata$age, probability = TRUE, main = "Age")
+hist(mydata$zombies_killed, probability = TRUE, main = "zombies_killed")
+hist(mydata$years_of_education, probability = TRUE, main = "years_of_education")
+###Histograms of quantitative variables.
+```
+
+```{r qq plot}
+qqnorm(mydata$height, probability = TRUE, main = "Height")
+qqline(mydata, col = "gray") #be sure to include the actual column in all the qqlines as well so `qqline(mydata$height)` -M
+qqnorm(mydata$weight, probability = TRUE, main = "Weight")
+qqline(mydata, col = "gray")
+qqnorm(mydata$zombies_killed, probability = TRUE, main = "zombies killed")
+qqline(mydata, col = "gray")
+qqnorm(mydata$years_of_education, probability = TRUE, main = "Years of Education")
+qqline(mydata, col = "gray")
+###QQ Plots. Hard to run individually.  Need to shift and enter two at a time. Is there a better way?
+
+```
+hist(mydata$weight, probabilty=TRUE)
+hist(mydata$age, probabilty=TRUE)
+hist(mydata$zombies_killed, probabilty=TRUE)
+hist(mydata$,years_of_education, probabilty=TRUE)
+
+_Is this suppose to be in a chunk? Otherwise the code won't run -M_
+
+###Histograms of quantitative variables.  How do I visuazlize the data after this?  Is it okay to do back to back histograms or is that my problem?  How am I able to tell if they are notmal or not without seeing them.
+
+qqnorm(mydata)
+qqline(v, col = "gray")
+
+###This I do not get at all!!! Help!
+_I think the problem is the `data =` argument in your `qqline` function like I pointed out in the chunk. Once you fix that the only other thing would be using `par()` if you want to see all the graphs together, otherwise I don't really see a problem with individual plots, hope this helps -M_
+
+###Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
+
+```{r sample}
+S<-sample(mydata, 30, replace=FALSE, prob=Null)
+S
+###My code is taking too long to run so I am unable to see if this is working or not.  I think I am going to go into office hours to discuss this problem. Since it is not running(a little clock shows up, I cannot yet do the mean or the standard deviation).
+=======
+>>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798 #These weird lines pop in your code all the time, idk if its because of my operating system but if you can see these too I would try and see what's causing them -M
+```
+_I approached this differently but I'm not sure how to fix the code using this method, I think its trying to sample the variables (the column names) instead of the observations (row names) so you would have to figure out how to isolate those. I basically sampled the id numbers and the assigned the associated rows to the same variable which is definatley a round-about way of doing it so i wouldn't recommend, but it does work if you split it up like that! -M_
+
+_Also don't forget the mean, standard deviation, and standard error! Calculating those for this sample helps you expand when working on the for loops. -M_
+
+###Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
+
+```{r}
+S<-sample(mydata, 99, replace=FALSE, prob=Null)
+S
+###This is also giving me the little clock and telling me to run later.  I will need to come back to this.  I am going to try logging off and back on. 
+=======
+>>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798
+```  
+_same probelm as above with the function but als for this you're going to want to use a for loop cause right now you're just getting one sample of 99 observations. This is how I did it:_
+`set.seed(1)
+k <- 99  # number of samples
+n <- 30  # size of each sample
+s <- NULL  # dummy variable to hold each sample
+for (i in 1:k) {
+    s[[i]] <- zombies[sample(zombies$id, size = n, replace = FALSE), ]
+}
+s[[100]]<- group1 #my initial sample`
+_Ignoring the messy function I made lmao this is a good setup for making the for loop. -M_
+
+_Again, don't forget the calculations! -M_
+
+##Challenges
+
+1. It took me a really long time to figure out how to get the data from github into Rstudio.  Mel helped me and I reliazed I was making it much more complicated than it needed to be.  I just needed to use the curl and readr functions. _I had the same problem with the first homework, glad she helped out, it loaded in great! -M_
+
+2. I struggled to figure out how to make the data appear on the plot.  I needed to make a function with "geom" in order to make it work. _Yes, also, if you want your plots next to each other use `par()` I find t really helpful -M_
+
+3. It was really hard to figure out how to get a line into the scatterplot.  I was able to find the function, but I still don't know how to find the slope. _I didn't even have a line oops so that's pretty awesome, maybe check around the ggplot cheat sheet for some answers on the slope, or you could just calculate the regression seperalty? -M_
+
+4. Q-Q plots!!!! HELP!!! _the big bug was the `qqline` data! That's all, don't forge to tell R what you want, in this case using the colnames to get the right q-q line. -M_
+
+5. How do I get chunks to run that are scheudled for later????????????? _Idk about the ones scheduled for late but a lot of chunks with that comment were just formatted incorrectly so see if you can poke around with the `?` command and fix what's up with function -M_
+
+##Peer Commentary
+I would say the biggest critique I have is an easy fix, formatting! I would split up some of those denser chunks and get rid of the misc. data that pops up so its easier to tell were the problems are. Besides that, make sure to read up on the function your using either with `?` or online cause some of those descriptions are confusing af. Also, remember to read the full questions, some of the calculations were missing. Otherwise I would say don't stress to much, you got through to the end so being confused is totally fine, I missed tons of stuff in my code too. Let me know if I can help out with any of the notes- some of the stuff I did a different way so I'm sorry if I wasn't super helpful fixing some of the functions. Hope I get to review your code again sometime! -M
