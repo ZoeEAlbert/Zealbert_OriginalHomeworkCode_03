@@ -47,7 +47,7 @@ mean(mydata$zombies_killed)
 mean(mydata$years_of_education)
 ###These means have all been separated. 
 sd.p=function(x){sd(x)*sqrt((length(x)-1)/length(x))}
-###I don't believe that this is the built in function.  This formula is based on a standard deviation module that I found online. 
+###I don't believe that this is the built in function.  This formula is based on a standard deviation module that I found online. *good! -Mel*
 sd.p(mydata$height)
 sd.p(mydata$weight)
 sd.p(mydata$age)
@@ -67,9 +67,11 @@ g<-ggplot(mydata, aes(x=gender, y=years_of_education))+geom_boxplot()
 ### Each graph is by a variable and gender.
 ```
 
+*look at all the plots*
+
 ### Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?
 ```{r scatterplots: height and weight as they relate to age}
-library(ggplot2) 
+library(ggplot2) *Should library this before the previous chunk*
 g<-ggplot(mydata, aes(x=age, y=height))+geom_point()+geom_smooth(method=lm,formula=y~x, se=FALSE, linetype="dashed",color="darkred")
 g
 g1<-ggplot(mydata, aes(x=age, y=weight))+geom_point()+geom_smooth(method=lm,formula=y~x, se=FALSE, linetype="dashed", color="darkred")
@@ -99,8 +101,12 @@ qqnorm(mydata$zombies_killed, probability = TRUE, main = "zombies killed")
 qqline(mydata, col = "gray")
 qqnorm(mydata$years_of_education, probability = TRUE, main = "Years of Education")
 qqline(mydata, col = "gray")
-###QQ Plots. Hard to run individually.  Need to shift and enter two at a time. Is there a better way?  Victoria suggested breaking the code into separate chunks.  If I do this, it might be easier to interpret.  What happens if I remove probability= TRUE??? 
+###QQ Plots. Hard to run individually.  Need to shift and enter two at a time. Is there a better way?  Victoria suggested breaking the code into separate chunks.  If I do this, it might be easier to interpret.
+*You can highlight two lines at a time and run them, or just run the whole chunk at once (best option, probs). You could also make the QQ plots in ggplot but thats a whole thing, this is easier*
+What happens if I remove probability= TRUE??? *This will just give you the frequency. It will show you a similar graph, you just have to choose one and be consistent* 
 ```
+*were all of these normal? If no, you will need to alter the way you find the CI in the next question*
+
 ```{histograms }
 hist(mydata$weight, probabilty=TRUE)
 hist(mydata$age, probabilty=TRUE)
@@ -120,6 +126,8 @@ n <- 30
 for (i in 1:10000) {
     zomset[i] <- mean(sample(sample.mydata$zombies_killed, n, replace = TRUE))
 } 
+###*where is the sample.mydata coming from? also, no need for a for loop when only taking one sample. you can see the code for sample() in module 8*
+
 ### 30 samples repeated 10,000 times. 
 
 zCI <- quantile(zomset, c(0.025, 0.975))
@@ -245,8 +253,11 @@ hist(e.sampling.distribution, main = 'Education Sampling Distribution', xlab= 'A
 
 ###Challenges
 ###1: It took me a really long time to figure out how to get the data from github into Rstudio.  Mel helped me and I reliazed I was making it much more complicated than it needed to be.  I just needed to use the curl and readr functions. 
-###2: I struggled to figure out how to make the data appear on the plot.  I needed to make a function with "geom" in order to make it work.
-###3:It was really hard to figure out how to get a line into the scatterplot.  I was able to find the function, but I still don't know how to find the slope. 
+###2: I struggled to figure out how to make the data appear on the plot.  I needed to make a function with "geom" in order to make it work. 
+###3:It was really hard to figure out how to get a line into the scatterplot.  I was able to find the function, but I still don't know how to find the slope. *look up "geom_text()" it should allow you to display the line equation on your graph and give you the r squared value*
 ###4:Q-Q plots!!!! HELP!!! 
 ###5:How do I get chunks to run that are scheudled for later????????????? V: there is a revert button under the setting of the chunk. maybe try that? 
-###Additional Question: Do I need to load in my data at the start of every chunk?  Why does it say mydata not found in some chunks, but not others?
+###Additional Question: Do I need to load in my data at the start of every chunk?  Why does it say mydata not found in some chunks, but not others? *It should be saved to your environment once you run it the first time. if you close R without saving your workspace then you will need to reload it*
+
+
+*my comments are in the asterisks. Make sure to save your file as a markdown so that I can run the chunks and make the comments stand out. -Mel* 
