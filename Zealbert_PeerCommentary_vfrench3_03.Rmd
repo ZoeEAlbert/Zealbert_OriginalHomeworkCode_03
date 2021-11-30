@@ -73,7 +73,7 @@ hist(mydata$years_of_education, probability = TRUE, main = "years_of_education")
 ###Histograms of quantitative variables.
 ```
 
-```{r qq plot}
+```{r qq plot, eval=FALSE}
 qqnorm(mydata$height, probability = TRUE, main = "Height")
 qqline(mydata, col = "gray") #V: for this you can't use the whole data set as the data. Try subsetting it like you did for the qqnorm function and it will run! 
 #V: actually this is weird, Im running into an error that says plot.new has not been called which wasn't happening with my code that looks just like this when I originally ran it. I will ask in class! 
@@ -88,60 +88,54 @@ qqline(mydata, col = "gray")
 
 
 ```
+```{r,eval=FALSE}
 hist(mydata$weight, probabilty=TRUE)
 hist(mydata$age, probabilty=TRUE)
 hist(mydata$zombies_killed, probabilty=TRUE)
-hist(mydata$,years_of_education, probabilty=TRUE)
+hist(mydata$zombies_killed,years_of_education, probabilty=TRUE)
 ###Histograms of quantitative variables.  How do I visuazlize the data after this?  Is it okay to do back to back histograms or is that my problem?  How am I able to tell if they are notmal or not without seeing them. 
 
-V: unsure what you are asking here? It should just print out all 5 in separate panels but maybe use separate chunks? I think when looking at histograms the test of normality is subjective.
+#V: unsure what you are asking here? It should just print out all 5 in separate panels but maybe use separate chunks? I think when looking at histograms the test of normality is subjective.
 
 qqnorm(mydata)
 qqline(v, col = "gray")
+```
 
 ###This I do not get at all!!! Help!
->>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798
-```
 V: again unsure on what you are asking for help on? If its the series of characters following the carrots. Usually that occurs when you are trying to merge changes that were both pushed maybe at the same time and therefore the changes are out of sync with the original repo. It is usually an indicator of where the additions or deletions of lines of code are compared to the merging document. Usually I just delete them haha but I don't know if that is the best advice. 
 
 ###Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
 
-```{r sample}
-<<<<<<< HEAD #V: This is also a product of merging, HEAD is where the changes begin. 
+```{r sample,eval=FALSE}
+ #V: This is also a product of merging, HEAD is where the changes begin. 
 S<-sample(mydata, 30, replace=FALSE, prob=NULL)
 S
 ###My code is taking too long to run so I am unable to see if this is working or not.  I think I am going to go into office hours to discuss this problem. Since it is not running(a little clock shows up, I cannot yet do the mean or the standard deviation).
 
 #V: So this code will produce an error. Essentially the sample function only takes vectors as an input for the data and your mydata object is a dataframe. Therefore you first need to subset the dataframe in order to call the sample function. Take a look at my code! It should help! 
-=======
->>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798 #V: indicates where changes end for merging. 
+ #V: indicates where changes end for merging. 
 ```
 
 ###Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
 
-```{r}
-<<<<<<< HEAD
+```{r, eval = FALSE}
 S<-sample(mydata, 99, replace=FALSE, prob=Null)
 S
 ###This is also giving me the little clock and telling me to run later.  I will need to come back to this.  I am going to try logging off and back on. 
 
 #V: See my comments for the previous chunk. Also here you are just saying that you will sample 99 items when the question is asking you to sample 30 items 99 different times. In order to do this you will need to create a for loop like we talked about in lecture! Again looking back at Module 7 will help! 
-=======
->>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798
+
 ```
 
 ###Challenges
 ###1: It took me a really long time to figure out how to get the data from github into Rstudio.  Mel helped me and I reliazed I was making it much more complicated than it needed to be.  I just needed to use the curl and readr functions. 
 ###2: I struggled to figure out how to make the data appear on the plot.  I needed to make a function with "geom" in order to make it work.
-<<<<<<< HEAD
 ###3:It was really hard to figure out how to get a line into the scatterplot.  I was able to find the function, but I still don't know how to find the slope. 
 ###4:Q-Q plots!!!! HELP!!! 
 ###5:How do I get chunks to run that are scheudled for later????????????? V: there is a revert button under the setting of the chunk. maybe try that? 
-=======
 ###3:It was really hard to figure out how to get a line into the scatterplot.  I was able to find the function, but I still don't know how to find the slope.
 ###4:Histograms and Q-Q plots!!!! HELP!!!
 ###5:
->>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798
 
 Overall Comments: 
 
