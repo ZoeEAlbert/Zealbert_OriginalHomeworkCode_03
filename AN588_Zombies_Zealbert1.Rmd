@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 plot(pressure)
 ```
 
+
 ###Calculate the population mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in var() and sd() commands as these are for samples.
 ```{r mean and sdev}
 library (curl)
@@ -70,59 +71,64 @@ hist(mydata$years_of_education, probability = TRUE, main = "years_of_education")
 ###Histograms of quantitative variables.
 ```
 
-```{r qq plot}
+```{r - qq plot}
 qqnorm(mydata$height, probability = TRUE, main = "Height")
-qqline(mydata, col = "gray")
+qqline(mydata$height, col = "gray")
 qqnorm(mydata$weight, probability = TRUE, main = "Weight")
-qqline(mydata, col = "gray")
+qqline(mydata$weight, col = "gray")
 qqnorm(mydata$zombies_killed, probability = TRUE, main = "zombies killed")
-qqline(mydata, col = "gray")
+qqline(mydata$zombies_killed, col = "gray")
 qqnorm(mydata$years_of_education, probability = TRUE, main = "Years of Education")
-qqline(mydata, col = "gray")
+qqline(mydata$years_of_education, col = "gray")
 ###QQ Plots. Hard to run individually.  Need to shift and enter two at a time. Is there a better way?
 
 ```
-hist(mydata$weight, probabilty=TRUE)
-hist(mydata$age, probabilty=TRUE)
-hist(mydata$zombies_killed, probabilty=TRUE)
-hist(mydata$,years_of_education, probabilty=TRUE)
-###Histograms of quantitative variables.  How do I visuazlize the data after this?  Is it okay to do back to back histograms or is that my problem?  How am I able to tell if they are notmal or not without seeing them.
-
-qqnorm(mydata)
-qqline(v, col = "gray")
-
-###This I do not get at all!!! Help!
->>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798
-```
-
 ###Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
 ```{r sample}
-<<<<<<< HEAD
-S<-sample(mydata, 30, replace=FALSE, prob=Null)
-S
-###My code is taking too long to run so I am unable to see if this is working or not.  I think I am going to go into office hours to discuss this problem. Since it is not running(a little clock shows up, I cannot yet do the mean or the standard deviation).
-=======
->>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798
+library(sciplot)
+# For height:
+s_height <- sample(mydata$height, size = 30, replace = FALSE)
+mean(s_height)
+sd(s_height)
+upper_h <- mean(s_height) + qnorm(0.975, mean = 0, sd = 1) * se(s_height)
+lower_h <- mean(s_height) + qnorm(0.025, mean = 0, sd = 1) * se(s_height)
+ci_h <- c(lower_h, upper_h)
+ci_h
+#For weight:
+s_weight <- sample(mydata$weight, size = 30, replace = FALSE)
+mean(s_weight)
+sd(s_weight)
+upper_w <- mean(s_weight) + qnorm(0.975, mean = 0, sd = 1) * se(s_weight)
+lower_w <- mean(s_weight) + qnorm(0.025, mean = 0, sd = 1) * se(s_weight)
+ci_w <- c(lower_w, upper_w)
+ci_w
+#For age:
+s_age <- sample(mydata$age, size = 30, replace = FALSE)
+mean(s_age)
+sd(s_age)
+upper_a <- mean(s_age) + qnorm(0.975, mean = 0, sd = 1) * se(s_age)
+lower_a <- mean(s_age) + qnorm(0.025, mean = 0, sd = 1) * se(s_age)
+ci_a <- c(lower_a, upper_a)
+ci_a
+# For zombies_killed:
+s_zombies_killed <- sample(mydata$zombies_killed, size = 30, replace = FALSE)
+mean(s_zombies_killed)
+sd(s_zombies_killed)
+# For years_of_education:
+s_years_of_education <- sample(mydata$years_of_education, size = 30, replace = FALSE)
+mean(s_years_of_education)
+sd(s_years_of_education)
+###My code is taking too long to run so I am unable to see if this is working or not.  I think I am going to go into office hours to discuss this problem. Since it is not running(a little clock shows up, I cannot yet do the mean or the standard deviation)
+###I am going back now at the end of the semester, and I can't belive how much more I know and how much easier it is to do this.
 ```
 
 ###Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
-```{r}
-<<<<<<< HEAD
-S<-sample(mydata, 99, replace=FALSE, prob=Null)
-S
+```{r, include=FALSE}
 ###This is also giving me the little clock and telling me to run later.  I will need to come back to this.  I am going to try logging off and back on. 
-=======
->>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798
 ```
 ###Challenges
 ###1: It took me a really long time to figure out how to get the data from github into Rstudio.  Mel helped me and I reliazed I was making it much more complicated than it needed to be.  I just needed to use the curl and readr functions. 
 ###2: I struggled to figure out how to make the data appear on the plot.  I needed to make a function with "geom" in order to make it work.
-<<<<<<< HEAD
 ###3:It was really hard to figure out how to get a line into the scatterplot.  I was able to find the function, but I still don't know how to find the slope. 
 ###4:Q-Q plots!!!! HELP!!! 
 ###5:How do I get chunks to run that are scheudled for later?????????????
-=======
-###3:It was really hard to figure out how to get a line into the scatterplot.  I was able to find the function, but I still don't know how to find the slope.
-###4:Histograms and Q-Q plots!!!! HELP!!!
-###5:
->>>>>>> b7b82fb30eb068d9fa220d7defd4ca08eb9a4798
